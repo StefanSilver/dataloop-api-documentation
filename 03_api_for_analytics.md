@@ -1,14 +1,14 @@
-## API for analytics
+## Dataloop's API Endpoint for Analytics
 
-In this bonus section of the API, we will present an exercise that will teach you how can use the API for analytics. You also have [a Jupyter notebook that has all of the code from this section](./api_analytics.ipynb) in a single file, which you can run and test yourself. This readme is a guide that will teach you what that code works, so you can understand how to operate or modify it to your needs.
+In this bonus section of the API, we will present an exercise that will teach you how to use the API for analytics. You also have [a Jupyter notebook that has all of the code for this section](./api_analytics.ipynb) in a single file which you can run and test yourself. This document is a guide that will teach you how the Analytics endpoint works so you can understand how to operate or modify it to your needs.
 
-The example we are going to showcase here will extract and print all Annotator activity (active/idle), per task and per item, for a chosen Project. These parameters are:
+The example we are going to showcase here will extract and print all Annotator activity (active/idle), per task and per item, for a chosen Project. The parameters are:
 ```
 taskId: <tasd.id>, itemId: <item.id> user: <user name>, activity status: <active/idle>, duration <ms>
 ```
-Here is also an example how it would look like, when extracted using the API:
+Here is an example of how it should look when extracted using the API:
 ```python
-taskId: 6146340f41e985613631785f, itemId: 6141d2c50f129f11d30c2c4b, user: Guy Twito, activity status: idle, duration 300000 
+taskId: 6146340f41e985613631785f, itemId: 6141d2c50f129f11d30c2c4b, user: User Name, activity status: idle, duration 300000 
 ```
 
 There are 3 functions that we will define and use, to get the information we need:
