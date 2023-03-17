@@ -125,8 +125,8 @@ This is a function that gets the active Users for the specified Project (see par
 It sends a ```POST``` API request to the Dataloop environment's ```/analytics/query``` API endpoint and passes the following three parameters:
 
 - **project** - the particular Project you want to run the analytics on - to extract the active Users.
-- **start_time** - the exact time you want your Query to start searching from; for example, if you want to search for users that were active starting one week ago.
-- **end_time** - the exact time you want your querry to stop searching from; for example, active users that were active until (meaning end_time) 1 month ago;
+- **start_time** - the exact time you want your Query to start searching from; for example, if you want to search for users that were active starting one week ago; it's described in milliseconds since the epoch, in UTC, for the date from which you want your querry to **start** searching;.
+- **end_time** - the exact time you want your querry to stop searching from; for example, active users that were active until (meaning end_time) 1 month ago; it's described as milliseconds since the epoch, in UTC, for the date from which you want your querry to **stop** searching - by default, it is set to the time of the execution (current time),
 
 To better understand start_time and end_time, you can think that the 2 variables, together define a timeframe. For example start_time= 365 days ago and end_time = 182.5 days ago (meaning 6 months). If the variables would be defined as so, it would mean that you Query for active users from 1 year ago until 6 months ago.
 
@@ -151,9 +151,9 @@ def get_user_info_by_hash(hash_tokens):
 ### The third function
 The most important function is called ```get_report(project: dl.Project, start_time: int, end_time: int = None)```, and it requires 3 parameters:
 
-- **project** - The project to execute the report on.
-- **start_time** - milliseconds since the epoch, in UTC, for the date from which you want your querry to **start** searching
-- **end_time** - milliseconds since the epoch, in UTC, for the date from which you want your querry to **stop** searching
+- **project** - The project to execute the report on;
+- **start_time** -the exact time you want your Query to start searching from; for example, if you want to search for users that were active starting one week ago; it's described in milliseconds since the epoch, in UTC, for the date from which you want your querry to **start** searching;.
+- **end_time** -  the exact time you want your querry to stop searching from; for example, active users that were active until (meaning end_time) 1 month ago; it's described as milliseconds since the epoch, in UTC, for the date from which you want your querry to **stop** searching - by default, it is set to the time of the execution (current time).
 
 The function returns list of Annotator activities (based on the hash of an Annotator/User) and a list of an active Users to get the username by hash. You can see the code below:
 
