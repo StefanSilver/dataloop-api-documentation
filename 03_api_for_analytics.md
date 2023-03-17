@@ -33,6 +33,8 @@ Let's start by describing the ```main()``` function. The 3 functions we mentione
 def main():
     dl.setenv("rc")
     # dl.login() #If you haven't logged in, do it before you try running the code below.
+    
+    # Converting from milliseconds to days - since it's easier for humans
     now = int(time.time() * 1000)
     day = 60*60*24*1000
     start_time = now - day * 30
