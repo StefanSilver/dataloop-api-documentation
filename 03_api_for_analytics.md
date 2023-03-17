@@ -126,7 +126,9 @@ It sends a ```POST``` API request to the Dataloop environment's ```/analytics/qu
 
 - **project** - the particular Project you want to run the analytics on - to extract the active Users.
 - **start_time** - the exact time you want your Query to start searching from; for example, if you want to search for users that were active starting one week ago; it's described in milliseconds since the epoch, in UTC, for the date from which you want your querry to **start** searching;.
-- **end_time** - the exact time you want your querry to stop searching from; for example, active users that were active until (meaning end_time) 1 month ago; it's described as milliseconds since the epoch, in UTC, for the date from which you want your querry to **stop** searching - by default, it is set to the time of the execution (current time),
+- **end_time** - the exact time you want your querry to stop searching from; for example, active users that were active until (meaning end_time) 1 month ago; it's described as milliseconds since the epoch, in UTC, for the date from which you want your querry to **stop** searching - by default, it is set to the time of the execution (current time).
+
+***Note***: [You can convert time to milliseconds since the epoch using this online tool](https://currentmillis.com/).
 
 To better understand start_time and end_time, you can think that the 2 variables, together define a timeframe. For example start_time= 365 days ago and end_time = 182.5 days ago (meaning 6 months). If the variables would be defined as so, it would mean that you Query for active users from 1 year ago until 6 months ago.
 
