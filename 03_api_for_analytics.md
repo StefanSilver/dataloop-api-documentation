@@ -11,20 +11,68 @@ Here is an example of how it should look when this data is extracted using the A
 taskId: 6146340f41e985613631785f, itemId: 6141d2c50f129f11d30c2c4b, user: User Name, activity status: idle, duration 300000 
 ```
 
-There are 3 functions that we will define and use to get the information we need:
+There are 3 functions that we will define and use to get the information we need, aside from the ```main()``` function:
 - ```get_active_users(project, start_time, end_time=None)``` 
 - ```get_user_info_by_hash(hash_tokens)```
 - ```get_report(project: dl.Project, start_time: int, end_time: int = None)```
 
 We will now explore and explain each of the functions so you get a better understanding of how you can use it - or adapt it to your needs.
-
-### The first function
-Before defining the first function, we need to import the necesarry libraries, including Dataloop's Pythons SDK aka ```dtlpy``` library and the ```requests``` library - the latter being the Dataloop API library.  We'll also import the generic ```time``` library.
+### Imports
+Before starting, we need to import the necesarry libraries, including Dataloop's Pythons SDK aka ```dtlpy``` library and the ```requests``` library - the latter being the Dataloop API library.  We'll also import the generic ```time``` library.
 ```
 import dtlpy as dl
 import requests
 import time
 ``` 
+
+### The ```main()``` function
+
+Let's start by describing the ```main()``` function. The 3 functions we mentioned earlier, will work together in the ```main()``` to perform Analytics API calls and get all of the active User information we specified. The code for the main function can be seen below:
+
+```
+def main():
+    dl.setenv("rc")
+    # dl.login() #If you haven't logged in, do it before you try running the code below.
+    now = int(time.time() * 1000)
+    day = 60*60*24*1000
+    start_time = now - day * 30
+
+    project = dl.projects.get(project_name="<example>")
+    start_time = project.created_at
+    report, active_user = get_report(project=project, start_time=start_time)
+    for line in report:
+        print("taskId: {}, itemId: {} user: {}, activityStatus: {}, duration {} ".format(
+            line['taskId'],
+            line['itemId'],
+            active_user[line['userId']]['username'],
+            line['activityStatus'],
+            line['duration']))
+
+
+if __name__ == "__main__":
+    main()
+```
+In this function, we first need to set the working environment to "rc". Then, we need to define the start_time, which is the time from which our API Query will start. 
+
+The example directly under the ```dl.login()``` for setting time describes how you can define the ```start_time``` variable to be 30 days ago. If you want to apply the Analytics calls, for example starting 90 days ago, all you have to do is define ```start_time = now - day * 90```, or whatever time-frame you require.
+
+After that, we ```GET``` the project we want to run our analytics on, which in this case is ```<example>``` - change this to your own project when trying the code.
+
+The ```start_time = project.created_at``` means that we will ask for Analytics on all of the Users since the project was created. If you want a custom time, define it as described above.
+
+We then use the ```get_report``` function - which uses all of the functions we explained earlier to extract active Users and their information as a hash list - on our currently selected Project, from our defined ```start_time``` until the present. 
+
+We then print the results on screen by using a ```for``` loop to go through all of the extracted information.
+
+Lastly, we simply execute the ```main()``` function using the last 2 lines of code:
+```
+if __name__ == "__main__":
+    main()
+```
+
+
+### The first function
+
 
 The first function we will explore is ```get_active_users(project, start_time, end_time=None)```. 
 
@@ -160,50 +208,6 @@ def get_report(project: dl.Project, start_time: int, end_time: int = None):
 
 ```
 
-### The main() function
-
-The last function we define in this exercise is the ```main()``` function. Here we will use the functions we defined and expained earlier, to perform Analytics API calls and get all of the active User information we specified. The code for this function can be seen below:
-
-```
-def main():
-    dl.setenv("rc")
-    # dl.login() #If you haven't logged in, do it before you try running the code below.
-    now = int(time.time() * 1000)
-    day = 60*60*24*1000
-    start_time = now - day * 30
-
-    project = dl.projects.get(project_name="<example>")
-    start_time = project.created_at
-    report, active_user = get_report(project=project, start_time=start_time)
-    for line in report:
-        print("taskId: {}, itemId: {} user: {}, activityStatus: {}, duration {} ".format(
-            line['taskId'],
-            line['itemId'],
-            active_user[line['userId']]['username'],
-            line['activityStatus'],
-            line['duration']))
-
-
-if __name__ == "__main__":
-    main()
-```
-In this function, we first need to set the working environment to "rc". Then, we need to define the start_time, which is the time from which our API Query will start. 
-
-The example directly under the ```dl.login()``` for setting time describes how you can define the ```start_time``` variable to be 30 days ago. If you want to apply the Analytics calls, for example starting 90 days ago, all you have to do is define ```start_time = now - day * 90```, or whatever time-frame you require.
-
-After that, we ```GET``` the project we want to run our analytics on, which in this case is ```<example>``` - change this to your own project when trying the code.
-
-The ```start_time = project.created_at``` means that we will ask for Analytics on all of the Users since the project was created. If you want a custom time, define it as described above.
-
-We then use the ```get_report``` function - which uses all of the functions we explained earlier to extract active Users and their information as a hash list - on our currently selected Project, from our defined ```start_time``` until the present. 
-
-We then print the results on screen by using a ```for``` loop to go through all of the extracted information.
-
-Lastly, we simply execute the ```main()``` function using the last 2 lines of code:
-```
-if __name__ == "__main__":
-    main()
-```
 
 ### Final thoughts
 This exercise, while it may extract simple information, has showcased how you can perform some basic Analytics data extraction using the Dataloop Analytics API endpoint on a Dataloop Project. Feel free to modify the code to fit your particular needs and try it out. 
